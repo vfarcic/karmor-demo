@@ -1,0 +1,29 @@
+---
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: block-busybox
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: silly-demo
+  process:
+    matchPaths:
+      - path: /bin/busybox
+  action:
+    Block
+---
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: block-sa-token
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: silly-demo
+  process:
+    matchDirectories:
+      - dir: /run/secrets/kubernetes.io/serviceaccount/
+        recursive: true
+  action:
+    Block

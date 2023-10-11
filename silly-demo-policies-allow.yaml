@@ -1,0 +1,14 @@
+---
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: block-busybox
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: silly-demo
+  process:
+    matchPaths:
+      - path: /usr/local/bin/silly-demo
+  action:
+    Allow
